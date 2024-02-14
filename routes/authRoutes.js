@@ -10,6 +10,7 @@ require("dotenv").config();
 
 router.post("/signup", (req, res) => {
   //res.send("this is signup page Postman ");
+  console.log("sent by client - ", req.body);
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     return res
@@ -53,7 +54,7 @@ router.post("/Login", async (req, res) => {
     bcrypt.compare(password, savedUser.password, (err, result) => {
       if (result) {
         console.log(
-          "password match when user have an accoutn and they login our same id and password"
+          "password matched when user have an accoutn and they login our same id and password"
         );
         const token = jwt.sign({ _id: savedUser._id }, process.env.JWT_SECRET);
         res.send({ token });
@@ -61,7 +62,7 @@ router.post("/Login", async (req, res) => {
         console.log("==================6==================");
         console.log("password does not match");
         console.log("====================================");
-        return res.status(422).json({ error: "invalid Credentials 5" });
+        return res.status(422).json({ error: "No User Avaliable.. Try to SignIn" });
       }
     });
   } catch (err) {
